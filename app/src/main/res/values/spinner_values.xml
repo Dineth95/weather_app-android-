@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner">
+        <item>Colombo</item>
+        <item>Negombo</item>
+        <item>Gampaha</item>
+        <item>Minuwangoda</item>
+        <item>Borella</item>
+        <item>Matara</item>
+        <item>Galle</item>
+        <item>kandy</item>
+    </string-array>
+</resources>
