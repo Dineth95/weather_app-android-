@@ -43,22 +43,20 @@ class MainActivity : Activity(),AdapterView.OnItemSelectedListener {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
-                if (selectedItem == "Galle") {
-                    Log.d("first","Galle selected")
-                    stateLayout.loading()
+                stateLayout.loading()
 
-                    //stateLayout.content()
-                    try {
-                        val observable=manager.getWeather("8c017654df36fc574e98427700d4040b",selectedItem)
-                        observable.subscribeOn(Schedulers.io())
+                //stateLayout.content()
+                try {
+                    val observable=manager.getWeather("8c017654df36fc574e98427700d4040b",selectedItem)
+                    observable.subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({base->textview.setText(base.current.temperature.toString())})
-                        stateLayout.content()
-                    }catch (e: Exception){
-                        Log.d("Error","Error occured")
-                        stateLayout.content()
-                    }
+                    stateLayout.content()
+                }catch (e: Exception){
+                    Log.d("Error","Error occured")
+                    stateLayout.content()
                 }
+
             } // to close the onItemSelected
 
             override fun onNothingSelected(parent: AdapterView<*>) {
