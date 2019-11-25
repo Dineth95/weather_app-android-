@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.erkutaras.statelayout.StateLayout android:id="@+id/stateLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="184dp"
+        android:layout_height="194dp">
+        <!-- CONTENT -->
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+    </RelativeLayout>
+</com.erkutaras.statelayout.StateLayout>

@@ -3,19 +3,30 @@ package com.example.day4
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
+import com.erkutaras.statelayout.StateLayout
+import com.example.day4.Service.ApiManager
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : Activity() {
+class MainActivity : Activity(),AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val spinner: Spinner = findViewById<Spinner>(R.id.spinner)
+        val stateLayout = findViewById<StateLayout>(R.id.stateLayout)
+        val textview=findViewById<TextView>(R.id.txt1)
 
-        val spinner: Spinner = findViewById(R.id.spinner)
 // Create an ArrayAdapter using the string array and a default spinner layout
+        stateLayout.content()
         ArrayAdapter.createFromResource(
             this,
             R.array.spinner,
@@ -27,16 +38,40 @@ class MainActivity : Activity() {
             spinner.adapter = adapter
         }
 
-        class SpinnerActivity : Activity(), AdapterView.OnItemSelectedListener {
+        var manager = ApiManager()
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                // An item was selected. You can retrieve the selected item using
-                // parent.getItemAtPosition(pos)
-            }
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                if (selectedItem == "Galle") {
+                    Log.d("first","Galle selected")
+                    stateLayout.loading()
+
+                    //stateLayout.content()
+                    try {
+                        val observable=manager.getWeather("8c017654df36fc574e98427700d4040b",selectedItem)
+                        observable.subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({base->textview.setText(base.current.temperature.toString())})
+                        stateLayout.content()
+                    }catch (e: Exception){
+                        Log.d("Error","Error occured")
+                        stateLayout.content()
+                    }
+                }
+            } // to close the onItemSelected
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // Another interface callback
+
             }
         }
     }
+
+    override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
+    }
+
+    override fun onNothingSelected(arg0: AdapterView<*>) {
+    }
+
+    ///Api Access Key-8c017654df36fc574e98427700d4040b
 }
