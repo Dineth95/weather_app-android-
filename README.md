@@ -9,3 +9,8 @@
 <br>
  <img src="https://github.com/Dineth95/weather_app-android-/blob/master/screenshots/Screenshot_1574397007.png" width="350" title="hover text">
 </p>
+
+<p>
+  <url>http://api.weatherstack.com</url>
+  Please assign your api_key to get connection with weather api.
+</p>
