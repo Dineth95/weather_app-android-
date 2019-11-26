@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import com.erkutaras.statelayout.StateLayout
+import com.example.day4.Models.Base
 import com.example.day4.Service.ApiManager
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +24,7 @@ class MainActivity : Activity(),AdapterView.OnItemSelectedListener {
         setContentView(R.layout.activity_main)
         val spinner: Spinner = findViewById<Spinner>(R.id.spinner)
         val stateLayout = findViewById<StateLayout>(R.id.stateLayout)
-        val textview=findViewById<TextView>(R.id.txt1)
+        val textview1=findViewById<TextView>(R.id.txt1)
 
 // Create an ArrayAdapter using the string array and a default spinner layout
         stateLayout.content()
@@ -50,7 +51,7 @@ class MainActivity : Activity(),AdapterView.OnItemSelectedListener {
                     val observable=manager.getWeather("8c017654df36fc574e98427700d4040b",selectedItem)
                     observable.subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({base->textview.setText(base.current.temperature.toString())})
+                            .subscribe({base->setValues(base)})
                     stateLayout.content()
                 }catch (e: Exception){
                     Log.d("Error","Error occured")
@@ -62,6 +63,12 @@ class MainActivity : Activity(),AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>) {
 
             }
+
+            fun setValues(base:Base){
+                textview1.setText(base.current.temperature.toString())
+                txtWind.setText("Wind: "+base.current.wind_speed.toString())
+                txtHumidity.setText("Humidity: "+base.current.humidity.toString())
+            }
         }
     }
 
@@ -70,6 +77,6 @@ class MainActivity : Activity(),AdapterView.OnItemSelectedListener {
 
     override fun onNothingSelected(arg0: AdapterView<*>) {
     }
-
+    
     ///Api Access Key-8c017654df36fc574e98427700d4040b
 }
