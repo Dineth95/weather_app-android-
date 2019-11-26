@@ -25,6 +25,9 @@ class MainActivity : Activity(),AdapterView.OnItemSelectedListener {
         val spinner: Spinner = findViewById<Spinner>(R.id.spinner)
         val stateLayout = findViewById<StateLayout>(R.id.stateLayout)
         val textview1=findViewById<TextView>(R.id.txt1)
+        
+        //Please attach your api key here
+        var Your_APi_key:String=""
 
 // Create an ArrayAdapter using the string array and a default spinner layout
         stateLayout.content()
@@ -48,7 +51,7 @@ class MainActivity : Activity(),AdapterView.OnItemSelectedListener {
 
                 //stateLayout.content()
                 try {
-                    val observable=manager.getWeather("8c017654df36fc574e98427700d4040b",selectedItem)
+                    val observable=manager.getWeather("Your_APi_key",selectedItem)
                     observable.subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({base->setValues(base)})
@@ -77,6 +80,4 @@ class MainActivity : Activity(),AdapterView.OnItemSelectedListener {
 
     override fun onNothingSelected(arg0: AdapterView<*>) {
     }
-    
-    ///Api Access Key-8c017654df36fc574e98427700d4040b
 }
